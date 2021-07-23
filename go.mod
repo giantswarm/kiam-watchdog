@@ -3,9 +3,6 @@ module github.com/giantswarm/kiam-watchdog
 go 1.16
 
 require (
-	github.com/Azure/go-autorest v11.1.2+incompatible // indirect
-	github.com/aws/aws-sdk-go-v2 v1.7.1 // indirect
-	github.com/aws/aws-sdk-go-v2/config v1.5.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/route53 v1.7.1
 	github.com/giantswarm/k8sclient/v4 v4.1.0
 	github.com/giantswarm/microerror v0.3.0
