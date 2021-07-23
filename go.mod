@@ -12,3 +12,8 @@ require (
 	k8s.io/apimachinery v0.18.19
 	k8s.io/client-go v0.18.19
 )
+
+replace (
+	github.com/coreos/etcd v3.3.13+incompatible => github.com/coreos/etcd v3.3.24+incompatible
+	github.com/dgrijalva/jwt-go => github.com/dgrijalva/jwt-go/v4 v4.0.0-preview1
+)
