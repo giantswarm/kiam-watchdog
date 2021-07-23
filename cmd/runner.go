@@ -52,7 +52,11 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	}
 
 	restarter, err := kiamagentrestarter.NewRestarter(kiamagentrestarter.Config{
-		Logger: r.logger,
+		Logger:        r.logger,
+		K8sClient:     nil,
+		Namespace:     r.flag.KiamNamespace,
+		LabelSelector: r.flag.KiamLabelSelector,
+		NodeName:      r.flag.NodeName,
 	})
 	if err != nil {
 		return microerror.Mask(err)
@@ -67,7 +71,7 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 			r.logger.Debugf(ctx, "Probe failed (number of failed probes: %d)", errors)
 			if errors >= r.flag.FailThreshold {
 				r.logger.Debugf(ctx, "Reached threshold of %d errors in a row", r.flag.FailThreshold)
-				err = restarter.RestartKiamAgent()
+				err = restarter.RestartKiamAgent(ctx)
 				if err != nil {
 					r.logger.Errorf(ctx, err, "Error restarting kiam agent")
 					// Next loop.

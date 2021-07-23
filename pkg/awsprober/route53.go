@@ -31,7 +31,7 @@ func NewRoute53(config Route53Config) (*Route53, error) {
 
 func (r *Route53) Probe(ctx context.Context) bool {
 	client := route53.New(route53.Options{
-		Region: "eu-west-1",
+		Region: r.region,
 	})
 
 	_, err := client.ListHostedZones(context.Background(), nil)
