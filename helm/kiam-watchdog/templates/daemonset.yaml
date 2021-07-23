@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "resource.default.name"  . }}
+  namespace: {{ include "resource.default.namespace"  . }}
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "labels.selector" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "labels.common" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "resource.default.name"  . }}
+      containers:
+        - name: kiam-watchdog
+          image: "{{ .Values.Installation.V1.Registry.Domain }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          args:
+          - "--region={{ .Values.aws.region }}"
+          - "--fail-threshold={{ .Values.kiamWatchdog.failThreshold }}"
+          - "--interval={{ .Values.kiamWatchdog.interval }}"
+          - "--kiam-namespace={{ .Values.kiamWatchdog.namespace }}"
+          - "--kiam-label-selector={{ .Values.kiamWatchdog.labelSelector }}"
+          - "--node-name=${K8S_NODE_NAME}"
+          env:
+            - name: K8S_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          resources:
+            limits:
+              cpu: 200m
+              memory: 200Mi
+            requests:
+              cpu: 200m
+              memory: 200Mi

@@ -5,9 +5,12 @@ import (
 	"io"
 	"time"
 
+	"github.com/giantswarm/k8sclient/v4/pkg/k8sclient"
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
 	"github.com/spf13/cobra"
+	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/rest"
 
 	"github.com/giantswarm/kiam-watchdog/pkg/awsprober"
 	"github.com/giantswarm/kiam-watchdog/pkg/kiamagentrestarter"
@@ -40,6 +43,13 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	var err error
 	errors := 0
 
+	r.logger.Debugf(ctx, "Kiam namespace: %q", r.flag.KiamNamespace)
+	r.logger.Debugf(ctx, "Kiam label selector: %q", r.flag.KiamLabelSelector)
+	r.logger.Debugf(ctx, "Node name: %q", r.flag.NodeName)
+	r.logger.Debugf(ctx, "Interval: %d", r.flag.Interval)
+	r.logger.Debugf(ctx, "Fail Threshould: %d", r.flag.FailThreshold)
+	r.logger.Debugf(ctx, "AWS region: %q", r.flag.Region)
+
 	var prober awsprober.Interface
 	{
 		prober, err = awsprober.NewRoute53(awsprober.Route53Config{
@@ -51,9 +61,30 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 		}
 	}
 
+	var k8sClient kubernetes.Interface
+	{
+		config, err := rest.InClusterConfig()
+		if err != nil {
+			return microerror.Mask(err)
+		}
+
+		c := k8sclient.ClientsConfig{
+			Logger:        r.logger,
+			SchemeBuilder: k8sclient.SchemeBuilder{},
+			RestConfig:    config,
+		}
+
+		clients, err := k8sclient.NewClients(c)
+		if err != nil {
+			return microerror.Mask(err)
+		}
+
+		k8sClient = clients.K8sClient()
+	}
+
 	restarter, err := kiamagentrestarter.NewRestarter(kiamagentrestarter.Config{
 		Logger:        r.logger,
-		K8sClient:     nil,
+		K8sClient:     k8sClient,
 		Namespace:     r.flag.KiamNamespace,
 		LabelSelector: r.flag.KiamLabelSelector,
 		NodeName:      r.flag.NodeName,

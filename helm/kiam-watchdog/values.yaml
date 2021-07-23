@@ -1,6 +1,4 @@
-# TEMPLATE-APP: This is set as a reasonable default, feel free to change.
-
-name: {APP-NAME}
+name: kiam-watchdog
 namespace: kube-system
 serviceType: managed
 
@@ -13,3 +11,12 @@ image:
   name: giantswarm/{APP-NAME}
   tag: v0.0.1
   pullPolicy: IfNotPresent
+
+aws:
+  region: "eu-west-1"
+
+kiamWatchdog:
+  namespace: "kube-system"
+  labelSelector: "component=kiam-agent"
+  failThreshold: 5
+  interval: 60
