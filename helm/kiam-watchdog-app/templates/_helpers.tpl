@@ -35,3 +35,14 @@ Selector labels
 app.kubernetes.io/name: {{ include "name" . | quote }}
 app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- end -}}
+
+{{/*
+Set the role name for KIAM
+*/}}
+{{- define "aws.iam.role" -}}
+{{- if .Values.aws.iam.customRoleName }}
+{{- printf "%s" .Values.aws.iam.customRoleName }}
+{{- else }}
+{{- printf "%s-Route53Manager-Role" .Values.clusterID }}
+{{- end }}
+{{- end }}

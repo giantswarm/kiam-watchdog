@@ -9,11 +9,13 @@ project:
 image:
   registry: quay.io
   name: giantswarm/kiam-watchdog
-  tag: latest
+  tag: "[[ .Version ]]"
   pullPolicy: IfNotPresent
 
 aws:
   region: "eu-west-1"
+  iam:
+    customRoleName: ""
 
 kiamWatchdog:
   namespace: "kube-system"
