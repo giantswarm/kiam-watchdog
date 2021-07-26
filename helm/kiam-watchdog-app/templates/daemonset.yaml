@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         {{- include "labels.common" . | nindent 8 }}
+        iam.amazonaws.com/role: "{{ .Values.kiamWatchdog.iamRole }}"
     spec:
       serviceAccountName: {{ include "resource.default.name"  . }}
       containers:
@@ -25,7 +26,7 @@ spec:
           - "--interval={{ .Values.kiamWatchdog.interval }}"
           - "--kiam-namespace={{ .Values.kiamWatchdog.namespace }}"
           - "--kiam-label-selector={{ .Values.kiamWatchdog.labelSelector }}"
-          - "--node-name=${K8S_NODE_NAME}"
+          - "--node-name=$(K8S_NODE_NAME)"
           env:
             - name: K8S_NODE_NAME
               valueFrom:
