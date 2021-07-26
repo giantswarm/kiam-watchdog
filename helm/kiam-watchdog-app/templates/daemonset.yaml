@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         {{- include "labels.common" . | nindent 8 }}
+      annotations:
         iam.amazonaws.com/role: "{{ .Values.kiamWatchdog.iamRole }}"
     spec:
       serviceAccountName: {{ include "resource.default.name"  . }}
