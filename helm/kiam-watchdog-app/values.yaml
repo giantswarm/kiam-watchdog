@@ -20,4 +20,4 @@ kiamWatchdog:
   labelSelector: "component=kiam-agent"
   failThreshold: 5
   interval: 60
-  iamRole: "GiantSwarmAdmin"
+  iamRole: "route53"
