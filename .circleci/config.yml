@@ -28,8 +28,8 @@ workflows:
       - architect/push-to-app-catalog:
           context: architect
           name: push-kiam-watchdog-to-default-app-catalog
-          app_catalog: "default-catalog"
-          app_catalog_test: "default-test-catalog"
+          app_catalog: "giantswarm-playground-catalog"
+          app_catalog_test: "giantswarm-playground-test-catalog"
           chart: "kiam-watchdog-app"
           requires:
             - push-kiam-watchdog-to-docker
