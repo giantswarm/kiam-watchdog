@@ -20,4 +20,8 @@ kiamWatchdog:
   labelSelector: "component=kiam-agent"
   failThreshold: 5
   interval: 60
-  iamRole: "route53"
+
+# clusterID
+# The cluster's ID. It is dynamically set and will be overridden. Specific
+# to Giant Swarm clusters.
+clusterID: en2jo

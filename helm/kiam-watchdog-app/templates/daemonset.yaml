@@ -14,7 +14,7 @@ spec:
       labels:
         {{- include "labels.common" . | nindent 8 }}
       annotations:
-        iam.amazonaws.com/role: "{{ .Values.kiamWatchdog.iamRole }}"
+        iam.amazonaws.com/role: "{{ .Values.clusterID }}-Route53Manager-Role"
     spec:
       serviceAccountName: {{ include "resource.default.name"  . }}
       containers:
