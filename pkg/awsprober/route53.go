@@ -3,7 +3,8 @@ package awsprober
 import (
 	"context"
 
-	"github.com/aws/aws-sdk-go-v2/service/route53"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/route53"
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
 )
@@ -30,11 +31,15 @@ func NewRoute53(config Route53Config) (*Route53, error) {
 }
 
 func (r *Route53) Probe(ctx context.Context) bool {
-	client := route53.New(route53.Options{
-		Region: r.region,
-	})
+	sess, err := session.NewSessionWithOptions(session.Options{})
+	if err != nil {
+		r.logger.Errorf(ctx, err, "Error during AWS session setup")
+		return false
+	}
 
-	_, err := client.ListHostedZones(context.Background(), nil)
+	client := route53.New(sess)
+
+	_, err = client.ListHostedZones(nil)
 	if err != nil {
 		r.logger.Errorf(ctx, err, "Error listing route53 hosted zones")
 		return false
