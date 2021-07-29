@@ -25,6 +25,19 @@ workflows:
             tags:
               only: /^v.*/
 
+      - architect/push-to-docker:
+          name: push-to-aliyun
+          image: "registry-intl.cn-shanghai.aliyuncs.com/giantswarm/kiam-watchdog"
+          username_envar: "ALIYUN_USERNAME"
+          password_envar: "ALIYUN_PASSWORD"
+          requires:
+            - build-kiam-watchdog
+          filters:
+            branches:
+              only: master
+            tags:
+              only: /^v.*/
+
       - architect/push-to-app-catalog:
           context: architect
           name: push-kiam-watchdog-to-default-app-catalog
