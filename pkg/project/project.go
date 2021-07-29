@@ -5,7 +5,7 @@ var (
 	gitSHA      = "n/a"
 	name        = "kiam-watchdog"
 	source      = "https://github.com/giantswarm/kiam-watchdog"
-	version     = "0.1.1"
+	version     = "0.1.2-dev"
 )
 
 func Description() string {
