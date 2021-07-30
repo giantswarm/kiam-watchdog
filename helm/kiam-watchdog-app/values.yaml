@@ -12,9 +12,6 @@ image:
   tag: "[[ .Version ]]"
   pullPolicy: IfNotPresent
 
-kiam:
-  region: ""
-
 aws:
   iam:
     customRoleName: ""

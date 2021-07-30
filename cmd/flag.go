@@ -9,7 +9,6 @@ import (
 )
 
 const (
-	regionFlag        = "region"
 	failThresholdFlag = "fail-threshold"
 	intervalFlag      = "interval"
 
@@ -19,7 +18,6 @@ const (
 )
 
 type flag struct {
-	Region        string
 	FailThreshold int
 	Interval      int
 
@@ -32,7 +30,6 @@ func (f *flag) Init(cmd *cobra.Command) {
 	// Add command line flags for glog.
 	pflag.CommandLine.AddGoFlagSet(goflag.CommandLine)
 
-	cmd.Flags().StringVar(&f.Region, regionFlag, "", `The AWS region to use for the tests.`)
 	cmd.Flags().IntVar(&f.FailThreshold, failThresholdFlag, 5, `How many failed probes in a row to consider kiam unhealthy. Defaults to 5.`)
 	cmd.Flags().IntVar(&f.Interval, intervalFlag, 60, `Interval in seconds to wait between tests. Defaults to 60.`)
 
@@ -43,10 +40,6 @@ func (f *flag) Init(cmd *cobra.Command) {
 
 func (f *flag) Validate(cmd *cobra.Command) error {
 	var err error
-
-	if f.Region == "" {
-		return fmt.Errorf("--%s can't be empty", regionFlag)
-	}
 
 	if f.KiamNamespace == "" {
 		return fmt.Errorf("--%s can't be empty", kiamNamespaceFlag)
@@ -67,8 +60,6 @@ func (f *flag) Validate(cmd *cobra.Command) error {
 	if f.FailThreshold <= 0 {
 		return fmt.Errorf("--%s should be greater than 0", intervalFlag)
 	}
-
-	// TODO validate AWS region.
 
 	return err
 }
