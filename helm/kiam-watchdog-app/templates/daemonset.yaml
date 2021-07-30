@@ -29,6 +29,9 @@ spec:
           image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
           imagePullPolicy: IfNotPresent
           args:
+          {{- if .Values.kiam.region }}
+          - "--region={{ .Values.kiam.region }}"
+          {{- end }}
           - "--fail-threshold={{ .Values.kiamWatchdog.failThreshold }}"
           - "--interval={{ .Values.kiamWatchdog.interval }}"
           - "--kiam-namespace={{ .Values.kiamWatchdog.namespace }}"

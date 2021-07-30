@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Use s3 instead of route53 to probe AWS API.
+- Use `.Values.kiam.region` as field to get AWS region.
 
 ## [0.2.0] - 2021-07-30
 

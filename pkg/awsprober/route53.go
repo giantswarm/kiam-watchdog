@@ -4,41 +4,44 @@ import (
 	"context"
 
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/aws/aws-sdk-go/service/route53"
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
 )
 
-type S3Config struct {
+type Route53Config struct {
 	Logger micrologger.Logger
+	Region string
 }
 
-type S3 struct {
+type Route53 struct {
 	logger micrologger.Logger
+	region string
 }
 
-func NewS3(config S3Config) (*S3, error) {
+func NewRoute53(config Route53Config) (*Route53, error) {
 	if config.Logger == nil {
 		return nil, microerror.Maskf(invalidConfigError, "%T.Logger must not be empty", config)
 	}
 
-	return &S3{
+	return &Route53{
 		logger: config.Logger,
+		region: config.Region,
 	}, nil
 }
 
-func (r *S3) Probe(ctx context.Context) bool {
+func (r *Route53) Probe(ctx context.Context) bool {
 	sess, err := session.NewSessionWithOptions(session.Options{})
 	if err != nil {
 		r.logger.Errorf(ctx, err, "Error during AWS session setup")
 		return false
 	}
 
-	client := s3.New(sess)
+	client := route53.New(sess)
 
-	_, err = client.ListBuckets(nil)
+	_, err = client.ListHostedZones(nil)
 	if err != nil {
-		r.logger.Errorf(ctx, err, "Error listing s3 buckets")
+		r.logger.Errorf(ctx, err, "Error listing route53 hosted zones")
 		return false
 	}
 

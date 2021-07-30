@@ -48,11 +48,13 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	r.logger.Debugf(ctx, "Node name: %q", r.flag.NodeName)
 	r.logger.Debugf(ctx, "Interval: %d", r.flag.Interval)
 	r.logger.Debugf(ctx, "Fail Threshould: %d", r.flag.FailThreshold)
+	r.logger.Debugf(ctx, "AWS region: %q", r.flag.Region)
 
 	var prober awsprober.Interface
 	{
-		prober, err = awsprober.NewS3(awsprober.S3Config{
+		prober, err = awsprober.NewRoute53(awsprober.Route53Config{
 			Logger: r.logger,
+			Region: r.flag.Region,
 		})
 		if err != nil {
 			return microerror.Mask(err)
