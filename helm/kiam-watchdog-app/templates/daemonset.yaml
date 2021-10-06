@@ -18,7 +18,7 @@ spec:
     spec:
       serviceAccountName: {{ include "resource.default.name"  . }}
       nodeSelector:
-        kubernetes.io/role: worker
+        node.kubernetes.io/worker: ""
       tolerations:
         # Make sure kiam agent gets scheduled on all worker nodes. Ignoring all taints.
         - effect: NoSchedule
