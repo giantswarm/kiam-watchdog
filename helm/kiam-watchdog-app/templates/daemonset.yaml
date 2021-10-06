@@ -17,6 +17,17 @@ spec:
         iam.amazonaws.com/role: "{{ template "aws.iam.role" . }}"
     spec:
       serviceAccountName: {{ include "resource.default.name"  . }}
+      nodeSelector:
+        node.kubernetes.io/worker: ""
+      tolerations:
+        # Make sure kiam agent gets scheduled on all worker nodes. Ignoring all taints.
+        - effect: NoSchedule
+          operator: Exists
+        # Mark the pod as a critical add-on for rescheduling.
+        - key: CriticalAddonsOnly
+          operator: Exists
+        - effect: NoExecute
+          operator: Exists
       initContainers:
       - name: wait-for-iam-role
         image: {{ .Values.image.registry }}/giantswarm/alpine:3.12.0
