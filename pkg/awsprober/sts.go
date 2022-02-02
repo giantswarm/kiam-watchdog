@@ -10,13 +10,15 @@ import (
 )
 
 type STSConfig struct {
-	Logger micrologger.Logger
-	Region string
+	Logger       micrologger.Logger
+	Region       string
+	ExpectedRole string
 }
 
 type STS struct {
-	logger micrologger.Logger
-	region string
+	logger       micrologger.Logger
+	region       string
+	expectedRole string
 }
 
 func NewSTS(config STSConfig) (*STS, error) {
@@ -25,8 +27,9 @@ func NewSTS(config STSConfig) (*STS, error) {
 	}
 
 	return &STS{
-		logger: config.Logger,
-		region: config.Region,
+		logger:       config.Logger,
+		region:       config.Region,
+		expectedRole: config.ExpectedRole,
 	}, nil
 }
 
@@ -39,9 +42,19 @@ func (r *STS) Probe(ctx context.Context) bool {
 
 	client := sts.New(sess)
 
-	_, err = client.GetCallerIdentity(nil)
+	identity, err := client.GetCallerIdentity(&sts.GetCallerIdentityInput{})
 	if err != nil {
 		r.logger.Errorf(ctx, err, "Error calling sts.GetCallerIdentity")
+		return false
+	}
+
+	if identity.UserId == nil {
+		r.logger.Errorf(ctx, err, "sts.GetCallerIdentity returned nil userId")
+		return false
+	}
+
+	if *identity.UserId != r.expectedRole {
+		r.logger.Errorf(ctx, err, "Expected to have assumed role %q, but sts.GetCallerIdentity gave us %q", r.expectedRole, *identity.UserId)
 		return false
 	}
 

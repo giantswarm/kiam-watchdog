@@ -24,6 +24,7 @@ kiamWatchdog:
   labelSelector: "component=kiam-agent"
   failThreshold: 5
   interval: 60
+  probeMode: "sts"
 
 # clusterID
 # The cluster's ID. It is dynamically set and will be overridden. Specific
