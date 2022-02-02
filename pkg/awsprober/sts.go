@@ -25,6 +25,9 @@ func NewSTS(config STSConfig) (*STS, error) {
 	if config.Logger == nil {
 		return nil, microerror.Maskf(invalidConfigError, "%T.Logger must not be empty", config)
 	}
+	if config.ExpectedRole == "" {
+		return nil, microerror.Maskf(invalidConfigError, "%T.ExpectedRole must not be empty", config)
+	}
 
 	return &STS{
 		logger:       config.Logger,

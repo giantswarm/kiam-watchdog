@@ -61,8 +61,9 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 			})
 		case probeModeSTS:
 			prober, err = awsprober.NewSTS(awsprober.STSConfig{
-				Logger: r.logger,
-				Region: r.flag.Region,
+				Logger:       r.logger,
+				Region:       r.flag.Region,
+				ExpectedRole: r.flag.RoleName,
 			})
 		default:
 			return microerror.Maskf(invalidProbeModeError, "probe mode %q is not valid", r.flag.ProbeMode)
