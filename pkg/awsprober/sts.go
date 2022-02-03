@@ -2,6 +2,7 @@ package awsprober
 
 import (
 	"context"
+	"strings"
 
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sts"
@@ -51,13 +52,13 @@ func (r *STS) Probe(ctx context.Context) bool {
 		return false
 	}
 
-	if identity.UserId == nil {
-		r.logger.Errorf(ctx, err, "sts.GetCallerIdentity returned nil userId")
+	if identity.Arn == nil {
+		r.logger.Errorf(ctx, err, "sts.GetCallerIdentity returned nil Arn")
 		return false
 	}
 
-	if *identity.UserId != r.expectedRole {
-		r.logger.Errorf(ctx, err, "Expected to have assumed role %q, but sts.GetCallerIdentity gave us %q", r.expectedRole, *identity.UserId)
+	if strings.HasSuffix(*identity.Arn, r.expectedRole) {
+		r.logger.Errorf(ctx, err, "Expected to have assumed role %q, but sts.GetCallerIdentity gave us Arn %q", r.expectedRole, *identity.Arn)
 		return false
 	}
 
