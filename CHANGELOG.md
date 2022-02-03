@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.1] - 2022-02-03
+
 ### Fixed
 
 - Fix sts successful check.
@@ -43,7 +45,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.0] - 2021-07-26
 
-[Unreleased]: https://github.com/giantswarm/giantswarm/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/giantswarm/giantswarm/compare/v0.5.1...HEAD
+[0.5.1]: https://github.com/giantswarm/giantswarm/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/giantswarm/giantswarm/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/giantswarm/kiam-watchdog/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/giantswarm/kiam-watchdog/compare/v0.2.0...v0.3.0
