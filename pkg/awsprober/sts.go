@@ -57,7 +57,7 @@ func (r *STS) Probe(ctx context.Context) bool {
 		return false
 	}
 
-	if strings.HasSuffix(*identity.Arn, r.expectedRole) {
+	if !strings.HasSuffix(*identity.Arn, r.expectedRole) {
 		r.logger.Errorf(ctx, err, "Expected to have assumed role %q, but sts.GetCallerIdentity gave us Arn %q", r.expectedRole, *identity.Arn)
 		return false
 	}
