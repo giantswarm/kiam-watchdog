@@ -2,6 +2,7 @@ package awsprober
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -57,7 +58,8 @@ func (r *STS) Probe(ctx context.Context) bool {
 		return false
 	}
 
-	if strings.HasSuffix(*identity.Arn, r.expectedRole) {
+	// Arn is in this format: "arn:aws:sts::<account id>:assumed-role/<role name>/kiam-kiam"
+	if !strings.Contains(*identity.Arn, fmt.Sprintf("/%s/", r.expectedRole)) {
 		r.logger.Errorf(ctx, err, "Expected to have assumed role %q, but sts.GetCallerIdentity gave us Arn %q", r.expectedRole, *identity.Arn)
 		return false
 	}
