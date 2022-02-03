@@ -48,6 +48,8 @@ spec:
           - "--kiam-namespace={{ .Values.kiamWatchdog.namespace }}"
           - "--kiam-label-selector={{ .Values.kiamWatchdog.labelSelector }}"
           - "--node-name=$(K8S_NODE_NAME)"
+          - "--probe-mode={{ .Values.kiamWatchdog.probeMode }}"
+          - "--role-name={{ template "aws.iam.role" . }}"
           env:
             - name: K8S_NODE_NAME
               valueFrom:

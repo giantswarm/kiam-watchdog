@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added --probe-mode flag to allow using either 'route53' or 'sts' to probe AWS API.
+
 ## [0.4.0] - 2021-10-06
 
 ### Added

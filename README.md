@@ -1,9 +1,8 @@
-[![CircleCI](https://circleci.com/gh/giantswarm/{APP-NAME}-app.svg?style=shield)](https://circleci.com/gh/giantswarm/{APP-NAME}-app)
+[![CircleCI](https://circleci.com/gh/giantswarm/kiam-watchdog/tree/master.svg?style=svg)](https://circleci.com/gh/giantswarm/kiam-watchdog/tree/master)
 
-# {APP-NAME} chart
+# Kiam watchdog
 
-Giant Swarm offers a {APP-NAME} App which can be installed in workload clusters.
-Here we define the {APP-NAME} chart with its templates and default configuration.
+This is an App that checks if kiam is working correctly and restarts it on a node if it's not.
 
 **What is this app?**
 **Why did we add it?**

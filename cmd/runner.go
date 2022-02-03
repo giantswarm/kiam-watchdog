@@ -49,13 +49,26 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	r.logger.Debugf(ctx, "Interval: %d", r.flag.Interval)
 	r.logger.Debugf(ctx, "Fail Threshould: %d", r.flag.FailThreshold)
 	r.logger.Debugf(ctx, "AWS region: %q", r.flag.Region)
+	r.logger.Debugf(ctx, "Probe Mode: %q", r.flag.ProbeMode)
 
 	var prober awsprober.Interface
 	{
-		prober, err = awsprober.NewRoute53(awsprober.Route53Config{
-			Logger: r.logger,
-			Region: r.flag.Region,
-		})
+		switch r.flag.ProbeMode {
+		case probeModeRoute53:
+			prober, err = awsprober.NewRoute53(awsprober.Route53Config{
+				Logger: r.logger,
+				Region: r.flag.Region,
+			})
+		case probeModeSTS:
+			prober, err = awsprober.NewSTS(awsprober.STSConfig{
+				Logger:       r.logger,
+				Region:       r.flag.Region,
+				ExpectedRole: r.flag.RoleName,
+			})
+		default:
+			return microerror.Maskf(invalidProbeModeError, "probe mode %q is not valid", r.flag.ProbeMode)
+		}
+
 		if err != nil {
 			return microerror.Mask(err)
 		}
