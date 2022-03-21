@@ -30,3 +30,6 @@ kiamWatchdog:
 # The cluster's ID. It is dynamically set and will be overridden. Specific
 # to Giant Swarm clusters.
 clusterID: en2jo
+
+verticalPodAutoscaler:
+  enabled: true
