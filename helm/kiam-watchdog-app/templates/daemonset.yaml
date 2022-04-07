@@ -16,6 +16,7 @@ spec:
       annotations:
         iam.amazonaws.com/role: "{{ template "aws.iam.role" . }}"
     spec:
+      priorityClassName: system-node-critical
       serviceAccountName: {{ include "resource.default.name"  . }}
       nodeSelector:
         node.kubernetes.io/worker: ""
