@@ -27,7 +27,7 @@ workflows:
 
       - architect/push-to-docker:
           name: push-to-aliyun
-          image: "registry-intl.cn-shanghai.aliyuncs.com/giantswarm/kiam-watchdog"
+          image: "giantswarm-registry.cn-shanghai.cr.aliyuncs.com/giantswarm/kiam-watchdog"
           username_envar: "ALIYUN_USERNAME"
           password_envar: "ALIYUN_PASSWORD"
           requires:
