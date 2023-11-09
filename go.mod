@@ -3,12 +3,11 @@ module github.com/giantswarm/kiam-watchdog
 go 1.16
 
 require (
-	github.com/aws/aws-sdk-go v1.27.0
+	github.com/aws/aws-sdk-go v1.47.7
 	github.com/giantswarm/k8sclient/v4 v4.1.0
 	github.com/giantswarm/microerror v0.3.0
 	github.com/giantswarm/micrologger v0.5.0
 	github.com/google/go-cmp v0.5.6 // indirect
-	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/spf13/cobra v1.2.1
 	github.com/spf13/pflag v1.0.5
 	k8s.io/apimachinery v0.18.19
