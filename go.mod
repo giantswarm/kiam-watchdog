@@ -3,7 +3,7 @@ module github.com/giantswarm/kiam-watchdog
 go 1.21
 
 require (
-	github.com/aws/aws-sdk-go v1.48.11
+	github.com/aws/aws-sdk-go v1.48.12
 	github.com/giantswarm/k8sclient/v4 v4.1.0
 	github.com/giantswarm/microerror v0.3.0
 	github.com/giantswarm/micrologger v0.5.0
